@@ -6,7 +6,14 @@ import { ReactComponent as Himg2 } from "../../images/hiddenImage2.svg";
 import "./card.css";
 
 function Card(props) {
-  const { click1, click2, setClick1, setClick2 } = props.props;
+  const {
+    click1,
+    click2,
+    setClick1,
+    setClick2,
+    setClickedCount,
+    clickedCount,
+  } = props.props;
 
   const [cards, setCards] = useState([]);
   const cardDesign = [
@@ -22,13 +29,7 @@ function Card(props) {
     ></Joker2>,
   ];
 
-  const cardIMG = [
-    <Himg1 className="img1"></Himg1>,
-    <Himg2 className="img2"></Himg2>,
-  ];
-
-  let randomCardDesign = Math.floor(Math.random() * 2);
-  let randomCardIMG = Math.floor(Math.random() * 2);
+  const cardIMG = [<Himg1></Himg1>, <Himg2></Himg2>];
 
   function shuffle(list) {
     for (let i = 0; i < list.length; i++) {
@@ -40,29 +41,62 @@ function Card(props) {
     return list;
   }
 
-  console.log(shuffle([1, 2, 3, 4, 5, 6, 7]));
+  function cardList() {
+    let cardProps = [1, 2].reduce((arr, type) => {
+      let cardClass = "img" + type;
+      arr.push({ comp: cardIMG[type - 1], cardClass });
+      arr.push({ comp: cardIMG[type - 1], cardClass });
+      return arr;
+    }, []);
+    return shuffle(cardProps);
+  }
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setCards(cardList());
+  }, []);
 
   function handleClick(e) {
     e.target.style.display = "none";
-    click1.clicked
-      ? setClick2({
-          ...click2,
-          clicked: true,
-          class: e.target.parentNode.children[1].children[0].className.baseVal,
-        })
-      : setClick1({
-          ...click1,
-          clicked: true,
-          class: e.target.parentNode.children[1].children[0].className.baseVal,
-        });
+
+    setClickedCount(clickedCount + 1);
+
+    if (click1.clicked) {
+      setClick2({
+        target: e.target,
+        clicked: true,
+        class: e.target.parentNode.children[1].className,
+      });
+    } else if (click2.clicked) {
+      setClick1({
+        target: e.target,
+        clicked: true,
+        class: e.target.parentNode.children[1].className,
+      });
+    } else {
+      setClick1({
+        target: e.target,
+        clicked: true,
+        class: e.target.parentNode.children[1].className,
+      });
+    }
   }
 
   return (
-    <div className="holder">
-      {cardDesign[randomCardDesign]}
-      <div className="cardIMG">{cardIMG[randomCardIMG]}</div>
+    <div className="container">
+      <div className="row align-items-center">
+        {cards.map((val, id) => {
+          return (
+            <div key={id} className="col">
+              <div className="holder">
+                {cardDesign[0]}
+                <div className="cardIMG" className={val.cardClass}>
+                  {val.comp}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
