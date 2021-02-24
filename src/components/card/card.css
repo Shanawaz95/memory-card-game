@@ -1,0 +1,18 @@
+.holder {
+  position: relative;
+}
+
+.cardBG,
+.cardIMG {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.cardBG {
+  z-index: 1;
+}
+
+.cardIMG {
+  z-index: -1;
+}
