@@ -25,10 +25,11 @@ function Holder(props) {
 
   useEffect(() => {
     setResult(scoreCount());
+    // eslint-disable-next-line
   }, [click2]);
 
   useEffect(() => {
-    if (click1.class != click2.class && mounted) {
+    if (click1.class !== click2.class && mounted) {
       click1.target.style.display = "block";
       click2.target.style.display = "block";
     } else {
@@ -36,10 +37,11 @@ function Holder(props) {
     }
 
     reset();
+    // eslint-disable-next-line
   }, [result]);
 
   function reset() {
-    if (clickedCount == 2) {
+    if (clickedCount === 2) {
       setClick1({
         clicked: false,
         class: "",

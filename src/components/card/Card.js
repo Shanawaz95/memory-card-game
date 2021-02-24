@@ -32,13 +32,14 @@ function Card(props) {
   const cardIMG = [<Himg1></Himg1>, <Himg2></Himg2>];
 
   function shuffle(list) {
-    for (let i = 0; i < list.length; i++) {
+    let newl = list;
+    for (let i = 0; i < newl.length; i++) {
       const rand = Math.floor(Math.random() * i + 1);
-      let temp = list[i];
-      list[i] = list[rand];
-      list[rand] = temp;
+      let temp = newl[i];
+      newl[i] = newl[rand];
+      newl[rand] = temp;
     }
-    return list;
+    return newl;
   }
 
   function cardList() {
@@ -53,6 +54,7 @@ function Card(props) {
 
   useEffect(() => {
     setCards(cardList());
+    // eslint-disable-next-line
   }, []);
 
   function handleClick(e) {
@@ -89,9 +91,7 @@ function Card(props) {
             <div key={id} className="col">
               <div className="holder">
                 {cardDesign[0]}
-                <div className="cardIMG" className={val.cardClass}>
-                  {val.comp}
-                </div>
+                <div className={val.cardClass}>{val.comp}</div>
               </div>
             </div>
           );
